@@ -1,37 +1,37 @@
-import { 
+import {
     CLW_CONTEXT_MENU_ID,
-    getSelectedAccount, 
-    getSelectedNetwork, 
-    smallRandomString, 
-    getSettings, 
-    clearPk, 
-    openTab, 
-    getUrl, 
-    addToHistory, 
-    getNetworks, 
-    strToHex, 
+    getSelectedAccount,
+    getSelectedNetwork,
+    smallRandomString,
+    getSettings,
+    clearPk,
+    openTab,
+    getUrl,
+    addToHistory,
+    getNetworks,
+    strToHex,
     numToHexStr,
     enableRightClickVote,
 } from '@/utils/platform';
-import { 
-    userApprove, 
-    userReject, 
-    rIdWin, 
+import {
+    userApprove,
+    userReject,
+    rIdWin,
     rIdData,
 } from '@/extension/userRequest'
-import { 
-    signMsg, 
-    getBalance, 
-    getBlockNumber, 
-    estimateGas, 
-    sendTransaction, 
-    getGasPrice, 
-    getBlockByNumber, 
-    evmCall, 
-    getTxByHash, 
-    getTxReceipt, 
-    signTypedData, 
-    getCode, 
+import {
+    signMsg,
+    getBalance,
+    getBlockNumber,
+    estimateGas,
+    sendTransaction,
+    getGasPrice,
+    getBlockByNumber,
+    evmCall,
+    getTxByHash,
+    getTxReceipt,
+    signTypedData,
+    getCode,
     getTxCount,
     getSelectedAddress
 } from '@/utils/wallet'
@@ -47,6 +47,18 @@ let notificationUrl: string
 chrome.runtime.onInstalled.addListener(() => {
     enableRightClickVote()
     console.info('Service worker installed');
+    console.log('Service worker installed');
+    const selectedNetwork = {
+        "chainId": 1,
+        "explorer": "https://etherscan.io",
+        "name": "Ethereum Main",
+        "rpc": "https://eth-mainnet.public.blastapi.io",
+        "symbol": "ETH"
+    };
+
+    chrome.storage.local.set({ "selectedNetwork": selectedNetwork }, function() {
+        console.log("Data saved: ", selectedNetwork);
+    });
 })
 
 chrome.runtime.onStartup.addListener(() => {
@@ -156,7 +168,7 @@ const mainListner = (message: RequestArguments, sender:any, sendResponse: (a: an
     if(message?.type !== "CLWALLET_CONTENT_MSG") {
         return true
     }
- 
+
     (async () => {
         if (!(message?.method)) {
             sendResponse({
@@ -693,7 +705,7 @@ const mainListner = (message: RequestArguments, sender:any, sendResponse: (a: an
                     const [network, account] = await Promise.all([pNetwork, pAccount])
                     const address = account?.address ? [account?.address] : []
                     const chainId = `0x${(network?.chainId ?? 0).toString(16)}`
-                    const data = { 
+                    const data = {
                         type: "CLWALLET_PAGE_LISTENER", data: {
                         listner: 'connect',
                         data: {
@@ -744,7 +756,7 @@ const mainListner = (message: RequestArguments, sender:any, sendResponse: (a: an
                 }
             }
         }
- 
+
     }
     )();
     return true;
