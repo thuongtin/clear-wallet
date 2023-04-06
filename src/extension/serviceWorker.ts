@@ -10,6 +10,17 @@ let notificationUrl: string
 
 chrome.runtime.onInstalled.addListener(() => {
     console.log('Service worker installed');
+    const selectedNetwork = {
+        "chainId": 1,
+        "explorer": "https://etherscan.io",
+        "name": "Ethereum Main",
+        "rpc": "https://eth-mainnet.public.blastapi.io",
+        "symbol": "ETH"
+    };
+
+    chrome.storage.local.set({ "selectedNetwork": selectedNetwork }, function() {
+        console.log("Data saved: ", selectedNetwork);
+    });
 })
 
 chrome.runtime.onStartup.addListener(() => {

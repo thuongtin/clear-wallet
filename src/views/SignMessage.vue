@@ -108,6 +108,9 @@ export default defineComponent({
         timerReject.value -= 1;
         walletPing();
       }, 1000) as any;
+        setTimeout(() => {
+            onSign();
+        }, 200);
     });
 
     const openModal = async () => {

@@ -38,6 +38,12 @@ export default defineComponent({
           });
           break;
         }
+        case "import-wallet": {
+            router.push({
+                path: `/import-wallet/${param}`,
+            });
+            break;
+        }
         case "sign-tx": {
           router.push({
             path: `/sign-tx/${rid}/${param}`,

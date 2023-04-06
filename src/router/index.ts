@@ -8,6 +8,10 @@ const routes: Array<RouteRecordRaw> = [
     redirect: '/tabs/home',
   },
   {
+    path: '/import-wallet/:param',
+    component: () => import('@/views/Import.vue'),
+  },
+  {
     path: '/sign-msg/:rid/:param',
     component: () => import('@/views/SignMessage.vue'),
   },
