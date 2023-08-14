@@ -165,7 +165,7 @@ const mainListner = (message: RequestArguments, sender:any, sendResponse: (a: an
                 }
                 case 'eth_gasPrice': {
                     try {
-                    sendResponse((await getGasPrice()).toHexString())
+                    sendResponse(strToHex(String(await getGasPrice() ?? 0)))
                     } catch {
                         sendResponse({
                             error: true,
@@ -228,7 +228,7 @@ const mainListner = (message: RequestArguments, sender:any, sendResponse: (a: an
                         data: params?.data ?? '',
                         value: params?.value ?? '0x0'
                     })
-                    const gasHex = gas?._hex ? gas?._hex : gas
+                    const gasHex = strToHex(String(gas ?? 0))
                     sendResponse(gasHex)
                     } catch(err) {
                     if(String(err).includes('UNPREDICTABLE_GAS_LIMIT')) {
@@ -338,7 +338,7 @@ const mainListner = (message: RequestArguments, sender:any, sendResponse: (a: an
 
                         })
                         try {
-                        const tx = await sendTransaction({...params, ...(rIdData?.[String(gWin?.id ?? 0)] ?? {}) }, pEstimateGas, pGasPrice)
+                        const tx = await sendTransaction({...params, ...(rIdData?.[String(gWin?.id ?? 0)] ?? {}) }, pEstimateGas, pGasPrice )
                         sendResponse(tx.hash)
                         const buttons = {} as any
                         const network = await getSelectedNetwork()
